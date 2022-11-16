@@ -21,10 +21,28 @@ requirements.txt
 static/
 templates/
 ```
-- app.py will have the Python code for our web server.
-- requirements.py includes a list of required libraries for our application.
-- static/ is a directory of static files, like images and CSS and JavaScript files.
-- templates/ is a directory for HTML files that will form our pages.
+- <code>app.py</code> will have the Python code for our web server.
+- <code>requirements.py</code> includes a list of required libraries for our application. 
+- <code>static/</code>is a directory of static files, like images and CSS and JavaScript files.
+- <code>templates/</code> is a directory for HTML files that will form our pages.
+
+Other web server frameworks will have a different set of conventions and requirements.
+
+
+Ex
+```
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+
+@app.route("/") # hey Python, define a route for /, the default page on my website application
+def index():
+    return render_template("index.html") # hey Python, define a function called index, takes no arguments. And the only thing you should ever do is return render template of quote unquote "index.html.
+```
+
+- The @ symbol in Python is called a decorator, which modifies a function.
+
 
 
 
