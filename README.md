@@ -79,5 +79,7 @@ We can use the request variable from the Flask library to get the arguments from
 ```
 To make sure our templates are reloaded, we can press control and C in the terminal window to exit Flask, and restart our server with <code>flask run</code> again.
 
+## Forms
 
+# **you should never, ever, ever rely on client side safety checks like required.** 
 
