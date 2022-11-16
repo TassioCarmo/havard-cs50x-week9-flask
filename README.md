@@ -226,6 +226,51 @@ def index():
 
 ```
 
+ In our index.html, we can check if session["name"] exists, and show different content if so:
+```
+{% extends "layout.html" %}
+{% block body %}
+
+    {% if session["name"] %}
+        You are logged in as {{ session["name"] }}. <a href="/logout">Log out</a>.
+    {% else %}
+        You are not logged in. <a href="/login">Log in</a>.
+    {% endif %}
+
+{% endblock %}
+```
+For our /login route, we’ll store name in session to the form’s value sent via POST, and then redirect to the default route. If we visited the route via GET, we’ll render the login form at login.html:
+```
+@app.route("/login", methods=["GET", "POST"])
+  def login():
+      if request.method == "POST":
+          session["name"] = request.form.get("name")
+          return redirect("/")
+      return render_template("login.html")
+
+```
+ Then, in our login.html, we can have a form that can submit to itself:
+```
+    {% extends "layout.html" %}
+
+    {% block body %}
+
+        <form action="/login" method="post">
+            <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+            <input type="submit" value="Log In">
+        </form>
+
+    {% endblock %}
+```
+For the /logout route, we can clear the value for name in session by setting it to None, and redirect to / again:
+```
+@app.route("/logout")
+def logout():
+    session["name"] = None
+    return redirect("/")
+
+```
+
     
 ## other  
 - cross-site request forgery. A fancy way of saying you trick them into clicking a link that they shouldn't have, because the website was using GET alone.
