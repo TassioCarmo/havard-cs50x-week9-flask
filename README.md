@@ -10,7 +10,7 @@ A file might be in a folder, like folder/file.html, and that reference is known 
 
 To get an input from the user you'll need to use ?key=value like http://www.example.com/route?key=value
 
-## flask
+# Flask
 Template is like a blueprint in the real world in other words plans to make something 
 Just like bootstrap is used for CSS and javascript flask is used for python
 
@@ -48,7 +48,7 @@ And the only thing you should ever do is return render template of quote unquote
 - The @ symbol in Python is called a decorator, which modifies a function.
 - typing <code>flask run</code> will return that HTML file when we visit our server’s URL: 
 
-Getting input 
+## Getting input 
 
 /?name=David at the end of the URL
 ```
