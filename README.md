@@ -81,5 +81,37 @@ To make sure our templates are reloaded, we can press control and C in the termi
 
 ## Forms
 
+```
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>hello</title>
+    </head>
+    <body>
+        <form action="/greet" method="get">
+            <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+            <input type="submit">
+        </form>
+    </body>
+</html>
+```
+We’ll send the form to the /greet route, and have an input for the name parameter as well as a submit button.
+
+add a function for the /greet route with what we had in the index() function before:
+```
+  @app.route("/")
+  def index():
+      return render_template("index.html")
+
+
+  @app.route("/greet")
+  def greet():
+      name = request.args.get("name")
+      return render_template("greet.html", name=name)
+```
+
+
 # **you should never, ever, ever rely on client side safety checks like required.** 
 
