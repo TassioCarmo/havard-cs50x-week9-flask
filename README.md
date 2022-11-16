@@ -193,3 +193,46 @@ The Flask framework implements a particular paradigm, or way of thinking and pro
     
  thought process to diagnose issues like this. Go back to the basics, go back to what HTTP and what HTML forms are all about, and just rule things in and out. 
     
+ ## Session
+  
+Sessions are how web servers remembers information about each user, which enables features like allowing users to stay logged in, and saving items to a shopping cart. These features require our server to be stateful, or having access to additional state, or information. HTTP on its own is stateless, since after we make a request and get a response, the interaction is completed.
+It turns out that servers can send another header in a response, called Set-Cookie:
+
+
+ Cookies are small pieces of data from a web server that the browser saves for us. In many cases, they are large random numbers or strings used to uniquely identify and track a user between visits.
+    
+### login
+    
+we can use the flask_session library to help manage this for us, in a new app called login:
+```
+from flask import Flask, redirect, render_template, request, session
+from flask_session import Session
+
+# Configure app
+app = Flask(__name__)
+
+# Configure session
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+```
+default / route, we’ll redirect to /login if there’s no name set in session for the user yet, and otherwise show a default index.html template.
+```
+@app.route("/")
+def index():
+    if not session.get("name"):
+        return redirect("/login")
+    return render_template("index.html")
+
+```
+
+    
+## other  
+- cross-site request forgery. A fancy way of saying you trick them into clicking a link that they shouldn't have, because the website was using GET alone.
+    
+- it's a very common convention on a server in the real world to store sensitive information in the computer's memory so that it can be accessed when your website is running, but not in your source code. It's way too easy if you put credentials, sensitive stuff in your source code, to post it to GitHub or to screenshot it accidentally, or for information to leak out. 
+    
+- OS.environ dictionary refers to what are called environment variables. And this is like an out-of-band, a special way of defining key value pairs in the computer's memory by running a certain command but that never show up in your actual code. Otherwise, there would be so many usernames and passwords accidentally visible on the internet. 
+ 
+    A session is the technical term for what you and I know as a shopping cart. When you go to amazon.com and you start adding things to your shopping cart, they follow you from page to page to page. Heck if you close your browser, come back to the next day, they're typically still your shopping cart, which is great for Amazon because they want your business
+
