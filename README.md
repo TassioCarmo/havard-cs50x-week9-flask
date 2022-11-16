@@ -35,10 +35,14 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+# hey Python, define a route for /, the default page on my website application
 
-@app.route("/") # hey Python, define a route for /, the default page on my website application
+@app.route("/") 
 def index():
-    return render_template("index.html") # hey Python, define a function called index, takes no arguments. And the only thing you should ever do is return render template of quote unquote "index.html.
+    return render_template("index.html")
+
+# hey Python, define a function called index, takes no arguments.
+And the only thing you should ever do is return render template of quote unquote "index.html.
 ```
 
 - The @ symbol in Python is called a decorator, which modifies a function.
