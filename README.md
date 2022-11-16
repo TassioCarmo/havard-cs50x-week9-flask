@@ -145,5 +145,42 @@ In index.html, we’ll use the layout.html blueprint and only define the body bl
 
 {% endblock %}
 ```
+Or even
+```
+    {% extends "layout.html" %}
 
+{% block body %}
+
+    hello, {{ name }}
+
+{% endblock %}
+    ```
+    
+ 
+# POST
+
+- Our form above used the GET method, which includes our form’s data in the URL.
+- We’ll just need to change the method in our HTML form: <form action="/greet" method="post">.
+- Now, when we visit our form and submit it, we see another error, “Method Not Allowed”.
+- Our controller will also need to be changed to accept the POST method, and look for the input from the form:
+```
+    @app.route("/greet", methods=["POST"])
+    def greet():
+        return render_template("greet.html", name=request.form.get("name", "world"))
+```
+ - While request.args is for inputs from a GET request, we have to use request.form in Flask for inputs from a POST request.
+ - Now, when we restart our application after making these changes, we can see that the form takes us to /greet, but the contents aren’t included in the URL anymore.
+ - Note that when we reload the /greet page, the browser asks us to confirm the form submission, since it’s temporarily remembering the inputs.
+ - GET requests are useful since they allow the browser to save the contents of the form in history, and allow links that include information as well, like https://www.google.com/search?q=what+time+is+it.
+    
+    request.args is for GET requests, request.form is for POST requests. 
+
+# MVC
+
+The Flask framework implements a particular paradigm, or way of thinking and programming. This paradigm, also implemented by other frameworks, is known as MVC, or Model–view–controller:
+        ![image](https://user-images.githubusercontent.com/31789624/202298664-f9b96333-4957-4052-b637-adfc02ae5b21.png)
+
+- The controller contains our “business logic”, code that manages our application overall, given user input. In Flask, this will be our Python code in app.py.
+- The view includes templates and visuals for the user interface, like the HTML and CSS that the user will see and interact with.
+- The model is our application’s data, such as a SQL database or CSV file, which we haven’t yet used.
 
