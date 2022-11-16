@@ -114,4 +114,36 @@ add a function for the /greet route with what we had in the index() function bef
 
 
 # **you should never, ever, ever rely on client side safety checks like required.** 
+```
+## Layout
+
+layout.html:
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>hello</title>
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
+```
+ With the {% %} syntax, we can include placeholder blocks, or other chunks of code. Here we’ve named our block body since it contains the HTML that should go in the <body> element.
+
+In index.html, we’ll use the layout.html blueprint and only define the body block with:
+```
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <form action="/greet" method="post">
+        <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+        <input type="submit">
+    </form>
+
+{% endblock %}
+```
+
 
