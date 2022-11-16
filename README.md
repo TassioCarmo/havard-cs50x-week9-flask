@@ -193,4 +193,197 @@ The Flask framework implements a particular paradigm, or way of thinking and pro
  # Diagonisticing an error
     
  thought process to diagnose issues like this. Go back to the basics, go back to what HTTP and what HTML forms are all about, and just rule things in and out. 
+    
+    
+ ## Frost templating with jinja
+    
+    single list of sports instead of hard coding:
+```
+from flask import Flask, render_template, request
 
+app = Flask(__name__)
+
+SPORTS = [
+    "Basketball"
+    "Soccer",
+    "Ultimate Frisbee"
+]
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", sports=SPORTS)
+```
+```   
+   {% extends "layout.html" %}
+
+{% block body %}
+    <h1>Register</h1>
+    <form action="/register" method="post">
+        <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+            <select name="sport">
+                <option disabled selected value="">Sport</option>
+                {% for sport in sports %}
+                    <option value="{{ sport }}">{{ sport }}</option>
+                {% endfor %}
+            </select>
+        <input type="submit" value="Register">
+    </form>
+{% endblock %}
+ ```
+    
+```
+    @app.route("/register", methods=["POST"])
+def register():
+
+    if not request.form.get("name") or request.form.get("sport") not in SPORTS:
+        return render_template("failure.html")
+
+    return render_template("success.html")
+    ```
+
+## Storing data
+    
+ registered students in a dictionary in the memory of our web server with froshims3:
+```
+# Implements a registration form, storing registrants in a dictionary, with error messages
+
+from flask import Flask, redirect, render_template, request
+
+app = Flask(__name__)
+
+REGISTRANTS = {}
+
+SPORTS = [
+    "Basketball",
+    "Soccer",
+    "Ultimate Frisbee"
+]
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", sports=SPORTS)
+
+
+@app.route("/register", methods=["POST"])
+def register():
+
+    # Validate name
+    name = request.form.get("name")
+    if not name:
+        return render_template("error.html", message="Missing name")
+
+    # Validate sport
+    sport = request.form.get("sport")
+    if not sport:
+        return render_template("error.html", message="Missing sport")
+    if sport not in SPORTS:
+        return render_template("error.html", message="Invalid sport")
+
+    # Remember registrant
+    REGISTRANTS[name] = sport
+
+    # Confirm registration
+    return redirect("/registrants")
+
+
+@app.route("/registrants")
+def registrants():
+    return render_template("registrants.html", registrants=REGISTRANTS)
+```
+    We’ll create a dictionary called REGISTRANTS, and in register we’ll first check the name and sport, returning a different error message in each case with error.html. Then, we can store the name and sport in our REGISTRANTS dictionary, and redirect to another route that will display registered students.
+
+The error message template, meanwhile, will display the error message along with a fun image of a grumpy cat:
+```
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Error</h1>
+    <p>{{ message }}</p>
+    <img alt="Grumpy Cat" src="/static/cat.jpg">
+{% endblock %}
+
+Our registrants.html template will print a table with the dictionary passed in as input:
+
+  {% extends "layout.html" %}
+
+  {% block body %}
+      <h1>Registrants</h1>
+      <table>
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Sport</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for name in registrants %}
+                  <tr>
+                      <td>{{ name }}</td>
+                      <td>{{ registrants[name] }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  {% endblock %}
+```
+Our table has a header row, and then a row for each key and value stored in registrants.
+
+If our web server stops running, we’ll lose the data stored in memory, so we’ll use a SQLite database with the SQL library from cs50 in froshims4:
+```
+# Implements a registration form, storing registrants in a SQLite database, with support for deregistration
+
+from cs50 import SQL
+from flask import Flask, redirect, render_template, request
+
+app = Flask(__name__)
+
+db = SQL("sqlite:///froshims.db")
+
+SPORTS = [
+    "Basketball",
+    "Soccer",
+    "Ultimate Frisbee"
+]
+
+
+@app.route("/")
+def index():
+    return render_template("index.html", sports=SPORTS)
+
+...
+```
+
+
+```
+@app.route("/register", methods=["POST"])
+def register():
+
+    # Validate submission
+    name = request.form.get("name")
+    sport = request.form.get("sport")
+    if not name or sport not in SPORTS:
+        return render_template("failure.html")
+
+    # Remember registrant
+    db.execute("INSERT INTO registrants (name, sport) VALUES(?, ?)", name, sport)
+
+    # Confirm registration
+    return redirect("/registrants")
+
+```
+    
+    
+  delete that row from our databas
+```    
+ @app.route("/deregister", methods=["POST"])
+def deregister():
+
+    # Forget registrant
+    id = request.form.get("id")
+    if id:
+        db.execute("DELETE FROM registrants WHERE id = ?", id)
+    return redirect("/registrants")
+
+```
