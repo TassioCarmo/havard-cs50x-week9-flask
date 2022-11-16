@@ -159,7 +159,6 @@ Or even
 {% endblock %}
 ```
     
- 
 # POST
 
 - Our form above used the GET method, which includes our form’s data in the URL.
@@ -214,6 +213,7 @@ SPORTS = [
 def index():
     return render_template("index.html", sports=SPORTS)
 ```
+-
 ```   
    {% extends "layout.html" %}
 
@@ -231,7 +231,7 @@ def index():
     </form>
 {% endblock %}
  ```
-    
+   - 
 ```
     @app.route("/register", methods=["POST"])
 def register():
@@ -292,9 +292,11 @@ def register():
 def registrants():
     return render_template("registrants.html", registrants=REGISTRANTS)
 ```
-    We’ll create a dictionary called REGISTRANTS, and in register we’ll first check the name and sport, returning a different error message in each case with error.html. Then, we can store the name and sport in our REGISTRANTS dictionary, and redirect to another route that will display registered students.
+    
+ We’ll create a dictionary called REGISTRANTS, and in register we’ll first check the name and sport, returning a different error message in each case with error.html. Then, we can store the name and sport in our REGISTRANTS dictionary, and redirect to another route that will display registered students.
 
 The error message template, meanwhile, will display the error message along with a fun image of a grumpy cat:
+    
 ```
 {% extends "layout.html" %}
 
@@ -328,9 +330,11 @@ Our registrants.html template will print a table with the dictionary passed in a
       </table>
   {% endblock %}
 ```
+    
 Our table has a header row, and then a row for each key and value stored in registrants.
 
 If our web server stops running, we’ll lose the data stored in memory, so we’ll use a SQLite database with the SQL library from cs50 in froshims4:
+
 ```
 # Implements a registration form, storing registrants in a SQLite database, with support for deregistration
 
@@ -352,7 +356,6 @@ SPORTS = [
 def index():
     return render_template("index.html", sports=SPORTS)
 
-...
 ```
 
 
