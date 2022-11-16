@@ -189,4 +189,8 @@ The Flask framework implements a particular paradigm, or way of thinking and pro
 - The controller contains our “business logic”, code that manages our application overall, given user input. In Flask, this will be our Python code in app.py.
 - The view includes templates and visuals for the user interface, like the HTML and CSS that the user will see and interact with.
 - The model is our application’s data, such as a SQL database or CSV file, which we haven’t yet used.
+    
+ # Diagonisticing an error
+    
+ thought process to diagnose issues like this. Go back to the basics, go back to what HTTP and what HTML forms are all about, and just rule things in and out. 
 
