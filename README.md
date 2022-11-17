@@ -290,6 +290,7 @@ Central to our ability to asynchronously update our pages is tomake use of a spe
 - Then just make your asynchronous request using the open() method to define the request and the send() method to actually send it.
 - There is a slightly different way to do this syntactically with jQuery!
     
+JavaScript function that is preparing, opening, and sending an Ajax request.
  ```
     function
 ajax_request (
@@ -303,6 +304,8 @@ ajax_request (
     aj.send()
     }
  ```
+generally done in Jquery
+    http://api.jquery.com/jquery.ajax
 ## other  
 - cross-site request forgery. A fancy way of saying you trick them into clicking a link that they shouldn't have, because the website was using GET alone.
     
