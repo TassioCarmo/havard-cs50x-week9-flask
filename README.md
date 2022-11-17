@@ -280,4 +280,10 @@ def logout():
 - OS.environ dictionary refers to what are called environment variables. And this is like an out-of-band, a special way of defining key value pairs in the computer's memory by running a certain command but that never show up in your actual code. Otherwise, there would be so many usernames and passwords accidentally visible on the internet. 
  
     A session is the technical term for what you and I know as a shopping cart. When you go to amazon.com and you start adding things to your shopping cart, they follow you from page to page to page. Heck if you close your browser, come back to the next day, they're typically still your shopping cart, which is great for Amazon because they want your business
-
+ 
+**How to run the flask application**
+```
+    export FLASK_APP=application.py
+export FLASK_DEBUG=1
+flask run
+```
