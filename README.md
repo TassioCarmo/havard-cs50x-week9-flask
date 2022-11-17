@@ -271,7 +271,38 @@ def logout():
 
 ```
 
+# Ajax
+Ajax (formerly Asynchronous JavaScript and XML ) allows us to dynamically update a webpage even more dynamically.
+ 
+Central to our ability to asynchronously update our pages is tomake use of a special JavaScript object called an XMLHttpRequest
+
+    <code>var xhttp = new XMLHttpRequest</code>
     
+- After obtaining your new object, you need to define its onreadystatechange behavior.
+- This is a function (typically an anonymous function) that will be called when the asynchronous HTTP request has completed, and thus typically defines what is expected to change on your site.
+ 
+- XMLHttpRequest s have two additional properties that are used to detect when the page finishes loading.
+
+- The readyState property will change from from 0 (request not yet initialized) to 1, 2, 3, and finally 4 (request finished, response
+
+- The status property will (hopefully!) be 200 
+
+- Then just make your asynchronous request using the open() method to define the request and the send() method to actually send it.
+- There is a slightly different way to do this syntactically with jQuery!
+    
+ ```
+    function
+ajax_request (
+{
+    var aj = new XMLHttpRequest
+    aj.onreadystatechange   = function(){ 
+    if (aj.readyState == 4 && aj.status == 200)
+    // do something to the page
+    };
+    aj.open ("GET", /* url */*/,true);
+    aj.send()
+    }
+ ```
 ## other  
 - cross-site request forgery. A fancy way of saying you trick them into clicking a link that they shouldn't have, because the website was using GET alone.
     
